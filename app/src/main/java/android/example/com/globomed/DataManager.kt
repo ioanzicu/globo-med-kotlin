@@ -2,7 +2,7 @@ package android.example.com.globomed
 
 import android.example.com.globomed.GloboMedDBContract.EmployeeEntry
 
-class DataManager {
+object DataManager {
 
     fun fetchAllEmployees(databaseHelper: DBHelper): ArrayList<Employee> {
         val employees = ArrayList<Employee>()
