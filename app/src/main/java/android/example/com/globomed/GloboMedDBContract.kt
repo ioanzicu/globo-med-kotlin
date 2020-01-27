@@ -13,11 +13,11 @@ object GloboMedDBContract {
         const val COLUMN_DESIGNATION = "designation"
 
         const val SQL_CREATE_ENTRIES: String =
-            "CREATE TABLE ${EmployeeEntry.TABLE_NAME} (" +
-                    _ID + " INTEGER PRIMARY KEY AUTO INCREMENT, " +
+            "CREATE TABLE $TABLE_NAME (" +
+                    _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "$COLUMN_NAME TEXT NOT NULL, " +
                     "$COLUMN_DOB INTEGER NOT NULL, " +
-                    "$COLUMN_DESIGNATION TEXT NOT NULL)"
+                    "$COLUMN_DESIGNATION TEXT NOT NULL);"
 
         const val SQL_DROP_TABLE = "DROP TABLE IF EXISTS ${EmployeeEntry.TABLE_NAME}"
     }
