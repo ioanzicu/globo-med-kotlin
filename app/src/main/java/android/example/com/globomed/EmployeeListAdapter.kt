@@ -1,6 +1,7 @@
 package android.example.com.globomed
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ class EmployeeListAdapter(
 ) : RecyclerView.Adapter<EmployeeListAdapter.EmployeeViewHolder>() {
 
     lateinit var employeeList: ArrayList<Employee>
+    val TAG = EmployeeListAdapter::class.java.name
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -26,7 +28,8 @@ class EmployeeListAdapter(
 
     override fun onBindViewHolder(holder: EmployeeViewHolder, position: Int) {
         var employee = employeeList[position]
-        holder.setData(employee.name, employee.designation)
+        holder.setData(employee.name, employee.designation, position)
+        holder.setListener()
     }
 
     fun setEmployees(employees: ArrayList<Employee>) {
@@ -34,11 +37,23 @@ class EmployeeListAdapter(
         notifyDataSetChanged()
     }
 
-    class EmployeeViewHolder(itemView: View)  : RecyclerView.ViewHolder(itemView) {
+    inner class EmployeeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun setData(name: String, designation: String) {
+        var pos = 0
+
+        fun setData(name: String, designation: String, pos: Int) {
             itemView.tvEmpName.text = name
             itemView.tvEmpDesignation.text = designation
+            this.pos = pos
+        }
+
+        fun setListener() {
+            itemView.setOnClickListener {
+                val databaseHelper = DBHelper(context)
+                val employee = DataManager.fetchEmployee(databaseHelper, employeeList[pos].id)
+
+                Log.i(TAG, employee.toString())
+            }
         }
     }
 }
