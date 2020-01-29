@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.example.com.globomed.GloboMedDBContract.EmployeeEntry
+import android.util.Log
 
 object DataManager {
 
@@ -26,7 +27,8 @@ object DataManager {
             null,
             null,
             null,
-            null)
+            null
+        )
 
         val idPos = cursor.getColumnIndex(EmployeeEntry.COLUMN_ID)
         val namePos = cursor.getColumnIndex(EmployeeEntry.COLUMN_NAME)
@@ -47,7 +49,7 @@ object DataManager {
         return employees
     }
 
-    fun fetchEmployee(databaseHelper: DBHelper, empId: String) : Employee? {
+    fun fetchEmployee(databaseHelper: DBHelper, empId: String): Employee? {
 
         val db = databaseHelper.readableDatabase
         var employee: Employee? = null
@@ -76,7 +78,7 @@ object DataManager {
         val dobPos = cursor.getColumnIndex(EmployeeEntry.COLUMN_DOB)
         val designationPos = cursor.getColumnIndex(EmployeeEntry.COLUMN_DESIGNATION)
 
-        while(cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
 
             val name = cursor.getString(namePos)
             val dob = cursor.getLong(dobPos)
@@ -103,5 +105,22 @@ object DataManager {
         val selectionArgs = arrayOf(employee.id)
 
         db.update(EmployeeEntry.TABLE_NAME, values, selection, selectionArgs)
+    }
+
+    fun deleteEmployee(databaseHelper: DBHelper, empId: String): Int {
+
+        val db = databaseHelper.writableDatabase
+
+        val selection = EmployeeEntry.COLUMN_ID + " LIKE ? "
+
+        val selectionArgs = arrayOf(empId)
+
+        return db.delete(EmployeeEntry.TABLE_NAME, selection, selectionArgs)
+    }
+
+    fun deleteAllEmployee(dbHelper: DBHelper): Int {
+
+        val db = dbHelper.writableDatabase
+        return db.delete(EmployeeEntry.TABLE_NAME, "1", null)
     }
 }

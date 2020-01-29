@@ -6,6 +6,7 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -121,8 +122,17 @@ class UpdateEmployeeActivity : AppCompatActivity() {
             R.id.action_delete -> {
                 var builder = AlertDialog.Builder(this)
                 builder.setMessage(R.string.confirm_sure)
-                    .setPositiveButton(R.string.yes) { dialog, empId ->
+                    .setPositiveButton(R.string.yes) { dialog, eId ->
 
+                        val result = DataManager.deleteEmployee(databaseHelper, empId.toString())
+
+                        Toast.makeText(
+                            applicationContext, "$result record deleted",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        setResult(Activity.RESULT_OK, Intent())
+                        finish()
                     }
                     .setNegativeButton(R.string.no) { dialog, id ->
                         dialog.dismiss()
