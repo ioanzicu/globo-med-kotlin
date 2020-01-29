@@ -1,18 +1,22 @@
 package android.example.com.globomed
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_add.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class UpdateEmployeeActivity: AppCompatActivity() {
+class UpdateEmployeeActivity : AppCompatActivity() {
 
-    lateinit var databaseHelper : DBHelper
+    lateinit var databaseHelper: DBHelper
     private val myCalendar = Calendar.getInstance()
 
     var empId: String? = null
@@ -26,7 +30,7 @@ class UpdateEmployeeActivity: AppCompatActivity() {
         var bundle = intent.extras
 
         bundle?.let {
-            empId  = bundle.getString(GloboMedDBContract.EmployeeEntry.COLUMN_ID)
+            empId = bundle.getString(GloboMedDBContract.EmployeeEntry.COLUMN_ID)
 
             val employee = DataManager.fetchEmployee(databaseHelper, empId!!)
 
@@ -105,5 +109,32 @@ class UpdateEmployeeActivity: AppCompatActivity() {
             val sdf = SimpleDateFormat("d MMM, yyyy", Locale.getDefault())
             sdf.format(dobInMilis)
         } ?: "Not Found"
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_item, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_delete -> {
+                var builder = AlertDialog.Builder(this)
+                builder.setMessage(R.string.confirm_sure)
+                    .setPositiveButton(R.string.yes) { dialog, empId ->
+
+                    }
+                    .setNegativeButton(R.string.no) { dialog, id ->
+                        dialog.dismiss()
+                    }
+
+                val dialog = builder.create()
+                dialog.setTitle("Are you sure")
+                dialog.show()
+
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
