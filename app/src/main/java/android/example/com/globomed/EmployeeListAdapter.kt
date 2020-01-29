@@ -1,7 +1,8 @@
 package android.example.com.globomed
 
+import android.app.Activity
 import android.content.Context
-import android.util.Log
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,10 +50,9 @@ class EmployeeListAdapter(
 
         fun setListener() {
             itemView.setOnClickListener {
-                val databaseHelper = DBHelper(context)
-                val employee = DataManager.fetchEmployee(databaseHelper, employeeList[pos].id)
-
-                Log.i(TAG, employee.toString())
+                val intent = Intent(context, UpdateEmployeeActivity::class.java)
+                intent.putExtra(GloboMedDBContract.EmployeeEntry.COLUMN_ID, employeeList[pos].id)
+                (context as Activity).startActivityForResult(intent, 2)
             }
         }
     }
