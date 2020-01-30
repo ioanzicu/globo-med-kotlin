@@ -29,7 +29,7 @@ class EmployeeListAdapter(
 
     override fun onBindViewHolder(holder: EmployeeViewHolder, position: Int) {
         var employee = employeeList[position]
-        holder.setData(employee.name, employee.designation, position)
+        holder.setData(employee.name, employee.designation, position, employee.isSurgeon)
         holder.setListener()
     }
 
@@ -42,10 +42,15 @@ class EmployeeListAdapter(
 
         var pos = 0
 
-        fun setData(name: String, designation: String, pos: Int) {
+        fun setData(name: String, designation: String, pos: Int, isSurgeon: Int) {
             itemView.tvEmpName.text = name
             itemView.tvEmpDesignation.text = designation
             this.pos = pos
+            itemView.tvIsSurgeonConfirm.text = when (isSurgeon) {
+                1 -> "  Yes"
+                0 -> "  No"
+                else -> null
+            }
         }
 
         fun setListener() {

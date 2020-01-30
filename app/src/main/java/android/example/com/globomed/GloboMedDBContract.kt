@@ -18,7 +18,8 @@ object GloboMedDBContract {
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "$COLUMN_NAME TEXT NOT NULL, " +
                     "$COLUMN_DOB INTEGER NOT NULL, " +
-                    "$COLUMN_DESIGNATION TEXT NOT NULL);"
+                    "$COLUMN_DESIGNATION TEXT NOT NULL, " +
+                    "$COLUMN_SURGEON INTEGER NOT NULL DEFAULT 0);"
 
         const val SQL_DROP_TABLE = "DROP TABLE IF EXISTS ${EmployeeEntry.TABLE_NAME}"
 

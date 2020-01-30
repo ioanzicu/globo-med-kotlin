@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GloboMedRef</string>
+    <string name="app_name">GloboMed</string>
     <string name="action_delete">Delete</string>
     <string name="name">Full Name</string>
     <string name="designation">Designation</string>

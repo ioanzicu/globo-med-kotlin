@@ -5,8 +5,6 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -39,6 +37,11 @@ class UpdateEmployeeActivity : AppCompatActivity() {
                 etEmpName.setText(employee.name)
                 etDesignation.setText(employee.designation)
                 etDOB.setText(getFormattedDate(employee.dob))
+                sSurgeon.isChecked = when(employee.isSurgeon) {
+                    1 -> true
+                    0 -> false
+                    else -> false
+                }
             }
         }
 
@@ -83,8 +86,12 @@ class UpdateEmployeeActivity : AppCompatActivity() {
             val updatedName = etEmpName.text.toString()
             val updatedDOB = myCalendar.timeInMillis
             val updatedDesignation = etDesignation.text.toString()
+            val updatedSurgeon = when (sSurgeon.isChecked) {
+                true -> 1
+                false -> 0
+            }
 
-            val updatedEmployee = Employee(empId!!, updatedName, updatedDOB, updatedDesignation)
+            val updatedEmployee = Employee(empId!!, updatedName, updatedDOB, updatedDesignation, updatedSurgeon)
 
             DataManager.updateEmployee(databaseHelper, updatedEmployee)
 

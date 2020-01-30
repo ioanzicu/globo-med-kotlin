@@ -2,9 +2,7 @@ package android.example.com.globomed
 
 import android.content.ContentValues
 import android.database.Cursor
-import android.database.sqlite.SQLiteDatabase
 import android.example.com.globomed.GloboMedDBContract.EmployeeEntry
-import android.util.Log
 
 object DataManager {
 
@@ -17,7 +15,8 @@ object DataManager {
             EmployeeEntry.COLUMN_ID,
             EmployeeEntry.COLUMN_NAME,
             EmployeeEntry.COLUMN_DOB,
-            EmployeeEntry.COLUMN_DESIGNATION
+            EmployeeEntry.COLUMN_DESIGNATION,
+            EmployeeEntry.COLUMN_SURGEON
         )
 
         var cursor = db.query(
@@ -34,6 +33,7 @@ object DataManager {
         val namePos = cursor.getColumnIndex(EmployeeEntry.COLUMN_NAME)
         val dobPos = cursor.getColumnIndex(EmployeeEntry.COLUMN_DOB)
         val designationPos = cursor.getColumnIndex(EmployeeEntry.COLUMN_DESIGNATION)
+        val isSurgeonPos = cursor.getColumnIndex(EmployeeEntry.COLUMN_SURGEON)
 
         while (cursor.moveToNext()) {
 
@@ -41,8 +41,9 @@ object DataManager {
             val name = cursor.getString(namePos)
             val dob = cursor.getLong(dobPos)
             val designation = cursor.getString(designationPos)
+            val surgeon = cursor.getInt(isSurgeonPos)
 
-            employees.add(Employee(id, name, dob, designation))
+            employees.add(Employee(id, name, dob, designation, surgeon))
         }
 
         cursor.close()
@@ -57,7 +58,8 @@ object DataManager {
         val columns = arrayOf(
             EmployeeEntry.COLUMN_NAME,
             EmployeeEntry.COLUMN_DOB,
-            EmployeeEntry.COLUMN_DESIGNATION
+            EmployeeEntry.COLUMN_DESIGNATION,
+            EmployeeEntry.COLUMN_SURGEON
         )
 
         val selection = EmployeeEntry.COLUMN_ID + " LIKE ? "
@@ -77,14 +79,16 @@ object DataManager {
         val namePos = cursor.getColumnIndex(EmployeeEntry.COLUMN_NAME)
         val dobPos = cursor.getColumnIndex(EmployeeEntry.COLUMN_DOB)
         val designationPos = cursor.getColumnIndex(EmployeeEntry.COLUMN_DESIGNATION)
+        val isSurgeonPos = cursor.getColumnIndex(EmployeeEntry.COLUMN_SURGEON)
 
         while (cursor.moveToNext()) {
 
             val name = cursor.getString(namePos)
             val dob = cursor.getLong(dobPos)
             val designation = cursor.getString(designationPos)
+            val surgeon = cursor.getInt(isSurgeonPos)
 
-            employee = Employee(empId, name, dob, designation)
+            employee = Employee(empId, name, dob, designation, surgeon)
         }
 
         cursor.close()
@@ -99,6 +103,7 @@ object DataManager {
         values.put(EmployeeEntry.COLUMN_NAME, employee.name)
         values.put(EmployeeEntry.COLUMN_DESIGNATION, employee.designation)
         values.put(EmployeeEntry.COLUMN_DOB, employee.dob)
+        values.put(EmployeeEntry.COLUMN_SURGEON, employee.isSurgeon)
 
         val selection = EmployeeEntry.COLUMN_ID + " LIKE ? "
 

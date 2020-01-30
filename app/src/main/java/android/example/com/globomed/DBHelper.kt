@@ -18,6 +18,6 @@ class DBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, nul
 
     companion object {
         const val DATABASE_NAME = "globomed.db"
-        const val DATABASE_VERSION = 1
+        const val DATABASE_VERSION = 3
     }
 }
